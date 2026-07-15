@@ -1,0 +1,14 @@
+_schema-version: "3.3"
+ID: firstapp.incidentmanagement
+version: 0.0.1
+
+modules:
+  - name: firstapp-incidentmanagement
+    type: html5
+    path: .
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build
+      supported-platforms: []
