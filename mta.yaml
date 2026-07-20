@@ -2,6 +2,15 @@ _schema-version: "3.3"
 ID: firstapp.incidentmanagement
 version: 0.0.1
 
+parameters:
+  enable-parallel-deployments: true
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm install
+
 modules:
   - name: firstapp-incidentmanagement
     type: html5
@@ -12,3 +21,45 @@ modules:
         - npm install
         - npm run build
       supported-platforms: []
+      build-result: dist
+
+  - name: firstapp-incidentmanagement-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: app-instance
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - name: firstapp-incidentmanagement
+          artifacts:
+            - firstapp-incidentmanagement.zip
+          target-path: resources/
+
+resources:
+  - name: app-instance
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+
+  - name: app-runtime-instance
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
+
+  - name: destination-instance
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+
+  - name: auth-instance
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: xs-security.json

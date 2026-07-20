@@ -13,12 +13,16 @@
     "@ui5/cli": "^4.0.33",
     "@sap/ux-ui5-tooling": "1",
     "@sap-ux/eslint-plugin-fiori-tools": "^10.0.0",
-    "eslint": "^10"
+    "eslint": "^10",
+    "rimraf": "^6.0.1",
+    "ui5-task-zipper": "^3.3.0",
+    "mbt": "^1.2.34"
   },
   "scripts": {
     "start": "fiori run --open \"test/flp.html#app-preview\"",
     "start-local": "fiori run --config ./ui5-local.yaml --open \"test/flp.html#app-preview\"",
     "build": "ui5 build --config=ui5.yaml --clean-dest --dest dist",
+    "build:cf": "ui5 build --config=ui5-deploy.yaml --clean-dest",
     "lint": "eslint ./",
     "deploy": "fiori verify",
     "deploy-config": "fiori add deploy-config",
